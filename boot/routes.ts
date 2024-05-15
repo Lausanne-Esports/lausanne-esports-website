@@ -8,4 +8,6 @@
 */
 
 import router from '@adonisjs/core/services/router'
-router.on('/inertia').renderInertia('home', { version: 6 })
+const LoginController = () => import('../src/admin/auth/controllers/login_controller.js')
+
+router.get('login', [LoginController, 'render'])

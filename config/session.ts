@@ -1,4 +1,4 @@
-import env from '#start/env'
+import env from '#boot/env'
 import app from '@adonisjs/core/services/app'
 import { defineConfig, stores } from '@adonisjs/session'
 
