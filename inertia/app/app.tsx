@@ -1,11 +1,13 @@
-import '../css/app.css'
+/// <reference path="../../adonisrc.ts" />
+
+import 'virtual:uno.css'
 import { hydrateRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 
 const appName = import.meta.env.VITE_APP_NAME || 'AdonisJS'
 
-createInertiaApp({
+void createInertiaApp({
   progress: { color: '#5468FF' },
 
   title: (title) => `${title} - ${appName}`,
