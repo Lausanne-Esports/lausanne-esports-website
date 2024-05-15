@@ -8,6 +8,11 @@
 */
 
 import router from '@adonisjs/core/services/router'
-const LoginController = () => import('../src/admin/auth/controllers/login_controller.js')
+const LoginController = () => import('#admin/auth/controllers/login_controller')
 
-router.get('login', [LoginController, 'render'])
+router
+  .group(() => {
+    router.get('login', [LoginController, 'render']).as('admin.auth.login')
+    router.post('login', [LoginController, 'execute'])
+  })
+  .prefix('admin')
