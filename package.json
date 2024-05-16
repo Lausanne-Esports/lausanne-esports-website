@@ -20,6 +20,7 @@
     "#boot/*": "./boot/*.js",
     "#config/*": "./config/*.js",
     "#admin/*": "./src/admin/*.js",
+    "#articles/*": "./src/articles/*.js",
     "#auth/*": "./src/auth/*.js",
     "#core/*": "./src/core/*.js"
   },
