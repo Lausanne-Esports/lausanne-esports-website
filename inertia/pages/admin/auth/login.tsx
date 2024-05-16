@@ -1,30 +1,59 @@
-import { LoginShell } from '~/components/admin/layout/login_shell'
-import { FormEvent, useState } from 'react'
-import { router } from '@inertiajs/react'
+import { useForm } from '@inertiajs/react'
 import { tuyau } from '~/core/tuyau'
+import { LoginShell } from '~/components/admin/layout/login_shell'
+import type { FormEvent } from 'react'
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false)
+  const { errors, post, processing, data, setData } = useForm({ email: '', password: '' })
 
   function submit(event: FormEvent) {
     event.preventDefault()
-    setIsLoading(true)
 
-    const form = new FormData(event.target as HTMLFormElement)
+    if (processing) {
+      return
+    }
 
-    router.post(tuyau.$url('admin.auth.login'), form, { onFinish: () => setIsLoading(false) })
+    post(tuyau.$url('admin.auth.login'), {
+      onFinish() {
+        setData('password', '')
+      },
+    })
   }
 
   return (
     <LoginShell title="Sign in to your account">
+      {'code' in errors && errors.code === 'E_INVALID_CREDENTIALS' && (
+        <span>No account found with the provided credentials</span>
+      )}
+
       <form action="" method="POST" onSubmit={submit}>
-        <label htmlFor="email"></label>
-        <input id="email" name="email" type="email" />
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={data.email}
+            onChange={(e) => setData('email', e.target.value)}
+          />
+          {errors.email && <small>{errors.email}</small>}
+        </div>
 
-        <label htmlFor="password"></label>
-        <input id="password" name="password" type="password" />
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={data.password}
+            onChange={(e) => setData('password', e.target.value)}
+          />
+          {errors.password && <small>{errors.password}</small>}
+        </div>
 
-        <button type="submit">{isLoading ? 'Loading...' : 'Login'}</button>
+        <button type="submit" disabled={processing}>
+          {processing ? 'Loading...' : 'Login'}
+        </button>
       </form>
     </LoginShell>
   )
