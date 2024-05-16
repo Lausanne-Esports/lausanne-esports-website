@@ -8,7 +8,10 @@
 */
 
 import router from '@adonisjs/core/services/router'
+const LandingController = () => import('../src/pages/controllers/landing_controller.js')
 const LoginController = () => import('#admin/auth/controllers/login_controller')
+
+router.get('/', [LandingController, 'render'])
 
 router
   .group(() => {
